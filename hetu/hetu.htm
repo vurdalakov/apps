@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Henkilötunnus</title>
+    <link rel="stylesheet" href="/apps.css">
+	<style>
+		span.example { color: blue; border-bottom: 1px dashed blue; cursor: pointer; }
+	</style>
+    <link rel="stylesheet" href="http://yastatic.net/jquery-ui/1.11.2/themes/base/jquery-ui.css">
+    <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
+    <script src="http://yastatic.net/jquery-ui/1.11.2/jquery-ui.js"></script>
+    <script src="/apps.js"></script>
+    <script src="hetu.js"></script>
+</head>
+<body>
+
+<h1>Henkilötunnus</h1>
+
+<p>This simple application verifies and generates personal identity codes that are in use in Finland (henkilötunnus or HETU).</p>
+
+<p>This is a basic example of using jQuery and jQuery UI. Source code is available in <a href="https://github.com/vurdalakov/apps/master/hetu">GitHub</a>.</p>
+
+<h2>Introduction</h2>
+
+<p><b>Henkilötunnus</b> (HETU, Swedish: <b>Personbeteckning</b>) is personal identity code that is in use in Finland. It was introduced in 1964 and is used for identifying the citizens in government and many corporate and other transactions.</p>
+
+<div class="moreless"><p>It consists of eleven characters of the form DDMMYYCZZZQ, where DDMMYY is the date of birth, C the century sign, ZZZ the individual number and Q the control character (checksum). The sign for the century is either + (1800–1899), - (1900–1999), or A (2000–2099). The individual number ZZZ is odd for males and even for females and for people born in Finland its range is 002-899 (larger numbers may be used in special cases).</p>
+
+<p>For example, 131052-308T could belong to a woman that was born on October 13, 1952. <a href="https://en.wikipedia.org/wiki/Carl_Gustaf_Emil_Mannerheim">Marshal Mannerheim</a> could have the code 040667+001R.</p>
+
+<p>HETU is given to every Finnish citizen born in Finland. Foreign citizens whose residence in Finland is permanent or exceeds more than one year are also issued a personal identity code by law. The personal identity code is a means to distinguish between individuals having the same name. It can be found in some public documents (such as the deed of purchase of real estate). Therefore knowing the code should not be used as a proof of identity, although this sometimes happens in the commercial sector. Employers need the personal identity code to report payment of wages to Finnish Tax Administration, the pension funds, etc.</p>
+
+<p>During 1964–1970 the personal identity code was known as Sosiaaliturvatunnus (SOTU, Social Security number). The term is still widely in use unofficially (and incorrectly).</p>
+
+<p><i>Based on <a href="https://en.wikipedia.org/wiki/National_identification_number#Finland">Wikipedia article</a></i></p></div>
+
+<h2>Henkil&ouml;tunnus validation</h2>
+
+<p>This tool checks henkil&ouml;tunnus for validity</p>
+<label for="verification_hetu1">Henkil&ouml;tunnus:</label>
+<input id="verification_hetu1" type="text" size="11" value="" />
+<input id="verification_verify" type="submit" value="Verify" style="margin-left: 16px;" />
+<input id="verification_clear" type="submit" value="Clear" style="margin-left: 16px;" />
+<span style="margin-left: 64px;">Examples: <span id="example1" class="example">131052-308T</span>, <span id="example2" class="example">010408A7770</span> or <span id="example3" class="example">040667+001R</span></span>.
+
+<p id="verified" style="display: none;">Henkil&ouml;tunnus <b><span id="verification_hetu2"></span></b> is <span id="verification_valid" style="color: green; display: none;"><b>valid</b>: it belongs to a <span id="verification_sex"></span> who was born on <span id="verification_birthday"></span></span><span id="verification_invalid" style="color: red; display: none;"><b>invalid</b>: <span id="verification_error"></span></span>.</p>
+
+<h2>Henkil&ouml;tunnus generation</h2>
+
+<p>This tool generates a valid henkil&ouml;tunnus based on birthday and sex.</p>
+<label for="generation_birthday">Birthday:</label>
+<input type="text" id="generation_birthday">
+<label for="generation_sex" style="margin-left: 16px;">Sex:</label>
+<select id="generation_sex">
+    <option value="F" selected>Female</option>
+    <option value="M">Male</option>
+</select>
+<input id="generation_generate" type="submit" value="Generate" style="margin-left: 16px;" />
+<input id="generation_clear" type="submit" value="Clear" style="margin-left: 16px;" />
+<p id="generation_error" style="color: red; display: none;"></p></body>
+<p id="generation_result" style="display: none;">Henkil&ouml;tunnus: <b><span id="generation_hetu"></b></span></p>
+
+</body>
+</html>

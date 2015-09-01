@@ -1,0 +1,11 @@
+<Files ~ "^[\._]ht">
+    Order deny,allow
+    Deny from all
+    Satisfy All
+</Files>
+
+DirectoryIndex index.htm
+
+DefaultType application/octet-stream
+
+Options +FollowSymLinks
