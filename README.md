@@ -8,5 +8,5 @@ To try them online, [click here](http://apps.vurdalakov.net).
 
 This simple application verifies and generates personal identity codes that are in use in Finland (henkilötunnus or HETU).
 * [Try it online](http://apps.vurdalakov.net/hetu)
-* [Source code](tree/master/hetu)
+* [Source code](/vurdalakov/apps/tree/master/hetu)
 * Used: jQuery, jQuery UI.
