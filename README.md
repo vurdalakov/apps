@@ -2,7 +2,7 @@
 
 All applications are licensed under [MIT License](http://opensource.org/licenses/MIT) if other  is not specified.
 
-To try them online, [click here](http://apps.vurdalakov.net);
+To try them online, [click here](http://apps.vurdalakov.net).
 
 ### hetu
 
