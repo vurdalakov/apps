@@ -113,6 +113,8 @@ function readNote($datadir, $id, $includeText)
 
 function writeNote($datadir, $id, $title, $text)
 {
+    $text = str_replace("\n", "\r\n", $text);
+    
     file_put_contents(getFileName($datadir, $id), "#T $title\r\n\r\n$text");
 
     return array("id" => $id);
