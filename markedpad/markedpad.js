@@ -20,7 +20,7 @@ function initialize()
 // ---------------------------------------------------------------------------------------
 // Refresh notes list
 
-function refreshNotesList()
+function refreshNotesList(id)
 {
     $(".noteitem").remove();
 
@@ -35,7 +35,7 @@ function refreshNotesList()
 
         if ($(".noteitem").length > 0)
         {
-            showNote($(".noteitem").first().attr("id"));
+            showNote("undefined" === typeof id ? $(".noteitem").first().attr("id") : id);
         }
     });
 }
@@ -50,12 +50,13 @@ function showNote(id)
     $.ajax({ data: { "method": "get", "id": id } }).done(function(data)
     {
         selected = data;
+        
         $(".notetitle").text(data.title);
-        $(".notetext").html(marked(data.text));
+        $(".notetext").html((!data.hasOwnProperty("text") || (0 == data.text)) ? "" : marked(data.text));
         $("#note").show();
         
         $(".noteitem").css("font-weight", "normal");
-        $("#" + id).css("font-weight", "bold");
+        $("#" + data.id).css("font-weight", "bold");
     });
 }
 
@@ -97,6 +98,13 @@ function showDialog(addNote)
 
 function doAddOrEditNote(dlg, addNote)
 {
+    if (0 == $("#dlgtitle").val().length)
+    {
+        okBox("Title cannot be empty!", "Error");
+        $("#dlgtitle").focus();
+        return;
+    }
+    
     if (addNote)
     {
         ajax = $.ajax({ data: { "method": "add", "title": $("#dlgtitle").val(), "text": $("#dlgtext").val() } });
@@ -108,8 +116,7 @@ function doAddOrEditNote(dlg, addNote)
     
     ajax.done(function(data)
     {
-        refreshNotesList();
-        showNote(data.id);
+        refreshNotesList(data.id);
     });
         
     $(dlg).dialog("close");
@@ -120,7 +127,7 @@ function doAddOrEditNote(dlg, addNote)
 
 function deleteNote()
 {
-    yesNoDialog("Confirmation", "Do you want to delete this note?<br /><br />\"" + selected.title + "\"", function() { doDeleteNote(selected.id); }, function() {});
+    yesNoBox("Do you want to delete this note?<br /><br />\"" + selected.title + "\"", "Confirmation", function() { doDeleteNote(selected.id); }, function() {});
 }
 
 function doDeleteNote(id)
@@ -131,7 +138,22 @@ function doDeleteNote(id)
     hideNote();
 }
 
-function yesNoDialog(title, text, functionForYes, functionForNoAndCancel)
+// ---------------------------------------------------------------------------------------
+// jQuery helpers
+
+function okBox(text, title)
+{
+    $("<div></div>").appendTo("body").html("<div>" + text + "</div>").dialog({
+        buttons: { "OK": function() { $(this).dialog("close"); } },
+        close: function (event, ui) { $(this).remove(); },
+        modal: true,
+        resizable: false,
+        title: typeof "undefined" === title ? 'Markedpad' : title,
+        width: 'auto'
+    });
+}
+
+function yesNoBox(text, title, functionForYes, functionForNoAndCancel)
 {
     $("<div></div>").appendTo("body").html("<div>" + text + "</div>").dialog({
         buttons:
@@ -145,7 +167,7 @@ function yesNoDialog(title, text, functionForYes, functionForNoAndCancel)
         },
         modal: true,
         resizable: false,
-        title: title,
+        title: typeof "undefined" === title ? 'Markedpad' : title,
         width: 'auto'
     });
 }
@@ -164,3 +186,4 @@ function setupAjax()
     });
 
 }
+

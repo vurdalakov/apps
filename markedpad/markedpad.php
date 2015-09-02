@@ -60,6 +60,7 @@ function readNotesList($datadir)
     {
         $titles[$key] = $note['title'];
     }
+    $titles = array_map('strtolower', $titles);
     array_multisort($titles, SORT_ASC, $notes);
     
     return array("notes" => $notes);

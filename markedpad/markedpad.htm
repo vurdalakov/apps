@@ -6,8 +6,8 @@
 	<style>
 		span.link { color: blue; border-bottom: 1px dashed blue; cursor: pointer; }
         ul.noteslist { list-style: square inside; padding-left: 0; margin-top: 0; color: blue; cursor: pointer; }
-        td.noteheader { padding: 4px; background: lightgray; font-weight: bold; }
-        td.notefooter { padding: 4px; background: lightgray; }
+        td.noteheader { padding: 4px; background: lightgray; }
+        span.notetitle { font-weight: bold; }
         td.notebody { padding: 8px; }
         input, select, textarea { width: 800px; -ms-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; -webkit-box-sizing:content-box; }
         textarea { resize: none; }
@@ -33,15 +33,14 @@
 <table width="100%" border="0"><tr>
 <td width="35%">
 <table width="100%" border="0">
-<tr><td class="notefooter"><span class="link" id="add">Add note</span></td></tr>
+<tr><td class="noteheader"><span style="float:right;"><span class="link" id="add">Add note</span></span></td></tr>
 <tr><td><ul class="noteslist"></ul></td></tr>
 </table>
 </td>
 <td>
 <table width="100%" border="0" id="note" style="display: none;">
-<tr><td class="noteheader"><span class="notetitle"></span></td></tr>
+<tr><td class="noteheader"><span class="notetitle"></span><span style="float:right;"><span class="link" id="edit">Edit note</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="link" id="delete">Delete note</span></span></td></tr>
 <tr><td class="notebody"><span class="notetext"></span></td></tr>
-<tr><td class="notefooter"><span class="link" id="edit">Edit note</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="link" id="delete">Delete note</span></td></tr>
 </table>
 </td>
 </tr></table>
@@ -49,7 +48,7 @@
 <div id="dialog" title="" style="display: none;">
     <table width="100%">
         <tr><td>Title:</td><td><input id="dlgtitle" type="text" size="80"></input></td></tr>
-        <tr><td>Text:</td><td><textarea id="dlgtext" rows="10" cols="80"></textarea></td></tr>
+        <tr><td>Text:</td><td><textarea id="dlgtext" rows="25" cols="80"></textarea></td></tr>
         <tr><td>&nbsp;</td><td><p align="right">You can use <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown</a> with <a href="https://help.github.com/articles/github-flavored-markdown/" target="_blank">GitHub extensions</a> (links open in new windows)</p></td></tr>
     </table>
 </div>
