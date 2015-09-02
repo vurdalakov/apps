@@ -10,18 +10,20 @@ function initialize()
 {
     setupAjax();
     
-    fillNotesList();
+    refreshNotesList();
     
     $("#add").click(addNote);
-    $("#edit").click(addNote);
+    $("#edit").click(editNote);
     $("#delete").click(addNote);
 }
 
 // ---------------------------------------------------------------------------------------
-// Fill notes list
+// Refresh notes list
 
-function fillNotesList()
+function refreshNotesList()
 {
+    $(".noteitem").remove();
+
     $.ajax({ data: { "method": "list" } }).done(function(data)
     {
         $.each(data.notes, function(i, note)
@@ -37,10 +39,13 @@ function fillNotesList()
 // ---------------------------------------------------------------------------------------
 // Show note
 
+var selected = null;
+
 function showNote(id)
 {
-    $.ajax({ data: { "method": "get", "id": id} }).done(function(data)
+    $.ajax({ data: { "method": "get", "id": id } }).done(function(data)
     {
+        selected = data;
         $(".notetitle").text(data.title);
         $(".notetext").html(marked(data.text));
         $("#note").show();
@@ -48,11 +53,42 @@ function showNote(id)
 }
 
 // ---------------------------------------------------------------------------------------
-// Add note
+// Add/edit note
 
 function addNote()
 {
-    alert("Not implemented yet.");
+    showDialog(true);
+}
+
+function editNote()
+{
+    showDialog(false);
+}
+
+function showDialog(addNote)
+{
+    $("#dlgtitle").val(addNote ? "" : selected.title);
+    $("#dlgtext").val(addNote ? "" : selected.text);
+    
+    $("#dialog").dialog({ buttons: { "OK": function() { addOrEditNote($(this), addNote); }, "Cancel": function() { $(this).dialog("close"); } }, modal: true, resizable: false, title: addNote ? "Add Note" : "Edit Note", width: "auto"});
+}
+
+function addOrEditNote(dlg, addNote)
+{
+    if (addNote)
+    {
+        
+    }
+    else
+    {
+        $.ajax({ data: { "method": "update", "id": selected.id, "title": $("#dlgtitle").val(), "text": $("#dlgtext").val() } }).done(function(data)
+        {
+            refreshNotesList();
+            showNote(selected.id);
+        });
+    }
+    
+    $(dlg).dialog("close");
 }
 
 // ---------------------------------------------------------------------------------------

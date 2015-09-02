@@ -9,7 +9,8 @@
         td.noteheader { padding: 4px; background: lightgray; font-weight: bold; }
         td.notefooter { padding: 4px; background: lightgray; }
         td.notebody { padding: 8px; }
-	</style>
+        input, select, textarea { width: 800px; -ms-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; -webkit-box-sizing:content-box; }
+    </style>
     <link rel="stylesheet" href="http://yastatic.net/jquery-ui/1.11.2/themes/base/jquery-ui.css">
     <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
     <script src="http://yastatic.net/jquery-ui/1.11.2/jquery-ui.js"></script>
@@ -42,6 +43,13 @@
 </table>
 </td>
 </tr></table>
+
+<div id="dialog" title="" style="display: none;">
+    <table width="100%">
+        <tr><td>Title:</td><td><input id="dlgtitle" type="text" size="80"></input></td></tr>
+        <tr><td>&nbsp;</td><td><textarea id="dlgtext" rows="10" cols="80"></textarea></td></tr>
+    </table>
+</div>
 
 </body>
 </html>

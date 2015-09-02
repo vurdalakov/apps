@@ -12,6 +12,10 @@ switch (getParam('method'))
         $response = readNote($datadir, getParam('id'), true);
         break;
         
+    case "update":
+        $response = writeNote($datadir, getParam('id'), getParam('title'), getParam('text'));
+        break;
+
     default:
         error();
 }
@@ -38,8 +42,21 @@ function readNotesList($datadir)
 
         closedir($handle);
     }
+
+    // sort notes by title
+    $titles = array();
+    foreach ($notes as $key => $note)
+    {
+        $titles[$key] = $note['title'];
+    }
+    array_multisort($titles, SORT_ASC, $notes);
     
     return array("notes" => $notes);
+}
+
+function sortByTitle($a, $b)
+{
+    return strcmp($a->title, $b->title);
 }
 
 function readNote($datadir, $id, $includeText)
@@ -63,6 +80,10 @@ function readNote($datadir, $id, $includeText)
         {
             $note["title"] = trim(substr($line, 3));
         }
+        elseif (0 == strlen($line))
+        {
+            // skip
+        }
         else
         {
             if ($includeText)
@@ -76,6 +97,11 @@ function readNote($datadir, $id, $includeText)
     }
     
     return $note;
+}
+
+function writeNote($datadir, $id, $title, $text)
+{
+    file_put_contents("$datadir/$id.md", "#T $title\r\n\r\n$text");
 }
 
 function getParam($param)
