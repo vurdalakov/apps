@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MarkedPad</title>
+    <link rel="stylesheet" href="/apps.css">
+	<style>
+		span.link { color: blue; border-bottom: 1px dashed blue; cursor: pointer; }
+        ul.noteslist { list-style: square inside; padding-left: 0; margin-top: 0; color: blue; cursor: pointer; }
+        td.noteheader { padding: 4px; background: lightgray; font-weight: bold; }
+        td.notefooter { padding: 4px; background: lightgray; }
+        td.notebody { padding: 8px; }
+	</style>
+    <link rel="stylesheet" href="http://yastatic.net/jquery-ui/1.11.2/themes/base/jquery-ui.css">
+    <script src="http://yastatic.net/jquery/2.1.4/jquery.js"></script>
+    <script src="http://yastatic.net/jquery-ui/1.11.2/jquery-ui.js"></script>
+    <script src="/apps.js"></script>
+    <script src="/lib/marked.js"></script>
+    <script src="markedpad.js"></script>
+</head>
+<body>
+
+<h1>MarkedPad</h1>
+
+<p>This is a simple online notepad that supports <a href="https://help.github.com/articles/github-flavored-markdown/">GitHub flavored markdown</a> via <a href="https://github.com/chjj/marked">marked.js</a>. Current version uses file system to store notes.</p>
+
+<p>Written using jQuery, AJAX and PHP. Source code is available in <a href="https://github.com/vurdalakov/apps/tree/master/markedpad">GitHub</a>.</p>
+
+<h2>Notes</h2>
+
+<table width="100%" border="0"><tr>
+<td width="35%">
+<table width="100%" border="0">
+<tr><td class="notefooter"><span class="link" id="add">Add note</span></td></tr>
+<tr><td><ul class="noteslist"></ul></td></tr>
+</table>
+</td>
+<td>
+<table width="100%" border="0" id="note" style="display: none;">
+<tr><td class="noteheader"><span class="notetitle"></span></td></tr>
+<tr><td class="notebody"><span class="notetext"></span></td></tr>
+<tr><td class="notefooter"><span class="link" id="edit">Edit note</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="link" id="delete">Delete note</span></td></tr>
+</table>
+</td>
+</tr></table>
+
+</body>
+</html>
