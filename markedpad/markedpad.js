@@ -77,17 +77,19 @@ function addOrEditNote(dlg, addNote)
 {
     if (addNote)
     {
-        
+        ajax = $.ajax({ data: { "method": "add", "title": $("#dlgtitle").val(), "text": $("#dlgtext").val() } });
     }
     else
     {
-        $.ajax({ data: { "method": "update", "id": selected.id, "title": $("#dlgtitle").val(), "text": $("#dlgtext").val() } }).done(function(data)
-        {
-            refreshNotesList();
-            showNote(selected.id);
-        });
+        ajax = $.ajax({ data: { "method": "update", "id": selected.id, "title": $("#dlgtitle").val(), "text": $("#dlgtext").val() } });
     }
     
+    ajax.done(function(data)
+    {
+        refreshNotesList();
+        showNote(data.id);
+    });
+        
     $(dlg).dialog("close");
 }
 

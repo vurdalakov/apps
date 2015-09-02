@@ -16,6 +16,10 @@ switch (getParam('method'))
         $response = writeNote($datadir, getParam('id'), getParam('title'), getParam('text'));
         break;
 
+    case "add":
+        $response = addNote($datadir, getParam('title'), getParam('text'));
+        break;
+
     default:
         error();
 }
@@ -102,6 +106,19 @@ function readNote($datadir, $id, $includeText)
 function writeNote($datadir, $id, $title, $text)
 {
     file_put_contents("$datadir/$id.md", "#T $title\r\n\r\n$text");
+
+    return array("id" => $id);
+}
+
+function addNote($datadir, $title, $text)
+{
+    do
+    {
+        $id = mt_rand(1000000, 9999999);
+    }
+    while (is_file("$datadir/$id.md"));
+    
+    return writeNote($datadir, $id, $title, $text);
 }
 
 function getParam($param)
