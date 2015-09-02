@@ -49,6 +49,9 @@ function showNote(id)
         $(".notetitle").text(data.title);
         $(".notetext").html(marked(data.text));
         $("#note").show();
+        
+        $(".noteitem").css("font-weight", "normal");
+        $("#" + id).css("font-weight", "bold");
     });
 }
 
