@@ -32,8 +32,12 @@ function refreshNotesList()
         });
 
         $(".noteitem").each(function(i, obj) { $(obj).click(function() { showNote($(obj).attr("id")); }) });
+
+        if ($(".noteitem").length > 0)
+        {
+            showNote($(".noteitem").first().attr("id"));
+        }
     });
-  
 }
 
 // ---------------------------------------------------------------------------------------
