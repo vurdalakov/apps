@@ -14,7 +14,7 @@ function initialize()
     
     $("#add").click(addNote);
     $("#edit").click(editNote);
-    $("#delete").click(addNote);
+    $("#delete").click(deleteNote);
 }
 
 // ---------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ function refreshNotesList()
 }
 
 // ---------------------------------------------------------------------------------------
-// Show note
+// Show/hide note
 
 var selected = null;
 
@@ -50,6 +50,11 @@ function showNote(id)
         $(".notetext").html(marked(data.text));
         $("#note").show();
     });
+}
+
+function hideNote()
+{
+    $("#note").hide();
 }
 
 // ---------------------------------------------------------------------------------------
@@ -70,10 +75,20 @@ function showDialog(addNote)
     $("#dlgtitle").val(addNote ? "" : selected.title);
     $("#dlgtext").val(addNote ? "" : selected.text);
     
-    $("#dialog").dialog({ buttons: { "OK": function() { addOrEditNote($(this), addNote); }, "Cancel": function() { $(this).dialog("close"); } }, modal: true, resizable: false, title: addNote ? "Add Note" : "Edit Note", width: "auto"});
+    $("#dialog").dialog({
+        buttons:
+        {
+            "OK": function() { doAddOrEditNote($(this), addNote); },
+            "Cancel": function() { $(this).dialog("close"); }
+        },
+        modal: true,
+        resizable: false,
+        title: addNote ? "Add Note" : "Edit Note",
+        width: "auto"
+    });
 }
 
-function addOrEditNote(dlg, addNote)
+function doAddOrEditNote(dlg, addNote)
 {
     if (addNote)
     {
@@ -91,6 +106,41 @@ function addOrEditNote(dlg, addNote)
     });
         
     $(dlg).dialog("close");
+}
+
+// ---------------------------------------------------------------------------------------
+// Add/edit note
+
+function deleteNote()
+{
+    yesNoDialog("Confirmation", "Do you want to delete this note?<br /><br />\"" + selected.title + "\"", function() { doDeleteNote(selected.id); }, function() {});
+}
+
+function doDeleteNote(id)
+{
+    $.ajax({ data: { "method": "delete", "id": id } });
+
+    refreshNotesList();
+    hideNote();
+}
+
+function yesNoDialog(title, text, functionForYes, functionForNoAndCancel)
+{
+    $("<div></div>").appendTo("body").html("<div>" + text + "</div>").dialog({
+        buttons:
+        {
+            "Yes": function() { functionForYes(); $(this).dialog("close"); },
+            "No": function() { functionForNoAndCancel(); $(this).dialog("close"); }
+        },
+        close: function (event, ui)
+        {
+            $(this).remove();
+        },
+        modal: true,
+        resizable: false,
+        title: title,
+        width: 'auto'
+    });
 }
 
 // ---------------------------------------------------------------------------------------

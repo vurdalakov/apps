@@ -1,5 +1,8 @@
 <?php // юникод utf-8
 
+const MIN_ID = 1000000;
+const MAX_ID = 9999999;
+
 $datadir = dirname(__FILE__) . '/notes';
 
 switch (getParam('method'))
@@ -20,8 +23,12 @@ switch (getParam('method'))
         $response = addNote($datadir, getParam('title'), getParam('text'));
         break;
 
+    case "delete":
+        $response = deleteNote($datadir, getParam('id'));
+        break;
+
     default:
-        error();
+        error('Unknown method');
 }
 
 echo json_encode($response);
@@ -65,7 +72,7 @@ function sortByTitle($a, $b)
 
 function readNote($datadir, $id, $includeText)
 {
-    $text = file_get_contents("$datadir/$id.md");
+    $text = file_get_contents(getFileName($datadir, $id));
     if (substr($text, 0, 3) == "\xEF\xBB\xBF")
     {
         $text = substr($text, 3);
@@ -105,7 +112,7 @@ function readNote($datadir, $id, $includeText)
 
 function writeNote($datadir, $id, $title, $text)
 {
-    file_put_contents("$datadir/$id.md", "#T $title\r\n\r\n$text");
+    file_put_contents(getFileName($datadir, $id), "#T $title\r\n\r\n$text");
 
     return array("id" => $id);
 }
@@ -114,26 +121,49 @@ function addNote($datadir, $title, $text)
 {
     do
     {
-        $id = mt_rand(1000000, 9999999);
+        $id = mt_rand(MIN_ID, MAX_ID);
     }
-    while (is_file("$datadir/$id.md"));
+    while (is_file(getFileName($datadir, $id)));
     
     return writeNote($datadir, $id, $title, $text);
+}
+
+function deleteNote($datadir, $id)
+{
+    $filename = getFileName($datadir, $id);
+    
+    if (is_file($filename))
+    {
+        unlink($filename);
+    }
+
+    return !is_file($filename);
 }
 
 function getParam($param)
 {
     if (!isset($_POST[$param]))
     {
-        error();
+        error('Parameter not found');
     }
     
     return $_POST[$param];
 }
 
-function error()
+function getFileName($datadir, $id)
+{
+    if (!ctype_digit($id) || (intval($id) < MIN_ID) || (intval($id) > MAX_ID)) // some protection; otherwise it can be '..\..\.htaccess'
+    {
+        error('Invalid ID: ' . $id);
+    }
+    
+    return "$datadir/$id.md";
+}
+
+function error($message)
 {
     http_response_code(400);
+    echo $message;
     exit;
 }
 ?>
