@@ -13,7 +13,7 @@ This simple application verifies and generates personal identity codes that are 
 
 ### markedpad
 
-This is a simple online notepad that supports GitHub flavored Markdown. It uses file system to store notes.
+This is a simple online notebook that supports GitHub flavored Markdown. It uses file system to store notes.
 * [Try it online](http://apps.vurdalakov.net/markedpad)
 * [Source code](https://github.com/vurdalakov/apps/tree/master/markedpad)
 * Used: jQuery, jQuery UI, Ajax (front end) and PHP (back end)
