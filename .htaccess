@@ -9,3 +9,4 @@ DirectoryIndex index.htm
 DefaultType application/octet-stream
 
 Options +FollowSymLinks
+Options All -Indexes
