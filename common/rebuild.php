@@ -31,7 +31,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
     exec('/usr/local/bin/git fetch --all && /usr/local/bin/git reset --hard origin/master 2>&1', $output);
 
     stdout('-----------------------');
-}}
+}
 
 // all done
 
